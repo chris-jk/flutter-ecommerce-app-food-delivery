@@ -58,7 +58,39 @@ class _MainPageBodyState extends State<MainPageBody> {
             activeShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
           ),
-        )
+        ),
+        // popular text
+        Container(
+          margin: EdgeInsets.only(left: Dimensions.width30),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              BigText(text: 'Popular'),
+              SizedBox(
+                width: Dimensions.width10,
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 3),
+                child: BigText(
+                  text: ".",
+                  color: Colors.black26,
+                ),
+              ),
+              SizedBox(
+                width: Dimensions.width10,
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 2),
+                child: SmallText(
+                  text: "Best in town",
+                  color: Colors.black26,
+                ),
+              )
+            ],
+          ),
+        ),
+
+        // list of products
       ],
     );
   }

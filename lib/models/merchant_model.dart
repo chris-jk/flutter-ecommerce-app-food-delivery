@@ -46,7 +46,7 @@ class MerchantModel {
   String? description;
   int? fee;
   int? staticFee;
-  List<Radius>? radius;
+  List<DeliveryRadius>? radius;
   int? isFeatured;
   int? cityId;
   int? views;
@@ -125,9 +125,9 @@ class MerchantModel {
     fee = json['fee'];
     staticFee = json['static_fee'];
     if (json['radius'] != null) {
-      radius = <Radius>[];
+      radius = <DeliveryRadius>[];
       json['radius'].forEach((v) {
-        radius!.add(Radius.fromJson(v));
+        radius!.add(DeliveryRadius.fromJson(v));
       });
     }
     isFeatured = json['is_featured'];
@@ -152,13 +152,13 @@ class MerchantModel {
   }
 }
 
-class Radius {
+class DeliveryRadius {
   double? lat;
   double? lng;
 
-  Radius({this.lat, this.lng});
+  DeliveryRadius({this.lat, this.lng});
 
-  Radius.fromJson(Map<String, dynamic> json) {
+  DeliveryRadius.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
     lng = json['lng'];
   }

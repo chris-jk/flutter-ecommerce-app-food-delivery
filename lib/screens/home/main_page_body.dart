@@ -10,6 +10,7 @@ import 'package:food_delivery/widgets/small_text.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
+import '../../widgets/app_description.dart';
 import '../../widgets/category_devider.dart';
 import '../../widgets/deals_view.dart';
 import '../../widgets/main_cards.dart';
@@ -108,20 +109,72 @@ class _MainPageBodyState extends State<MainPageBody> {
         ),
         // list of stores
         GetBuilder<MercahntController>(builder: (allMerchantsData) {
-          return Container(
-            height: Dimensions.pageView,
-            child: PageView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: allMerchantsData.merchantList.length,
-              itemBuilder: (BuildContext context, int i) {
-                return MainCard(
-                  image: 'assets/image/food0.png',
-                  title: 'Title of thing',
-                  description: 'This is a description ',
+          return allMerchantsData.isLoaded
+              ? SizedBox(
+                  height: Dimensions.pageView,
+                  child: PageView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: allMerchantsData.merchantList.length,
+                    itemBuilder: (BuildContext context, int i) {
+                      return Container(
+                        width: Dimensions.pageViewContainer * 1.05,
+                        height: Dimensions.pageView,
+                        margin: EdgeInsets.only(
+                            left: Dimensions.width10 / 2,
+                            right: Dimensions.width10 / 2,
+                            top: Dimensions.height10),
+                        child: Column(
+                          children: [
+                            // image section
+                            Container(
+                              height: Dimensions.listViewImg,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft:
+                                          Radius.circular(Dimensions.radius30),
+                                      topRight:
+                                          Radius.circular(Dimensions.radius30)),
+                                  color: Colors.white38,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(allMerchantsData
+                                        .merchantList[i].logom!),
+                                  )),
+                            ),
+                            // bottom half
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft:
+                                        Radius.circular(Dimensions.radius20),
+                                    bottomRight:
+                                        Radius.circular(Dimensions.radius20),
+                                  ),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: Dimensions.width10,
+                                    right: Dimensions.width10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    AppDecription(
+                                        text: allMerchantsData
+                                            .merchantList[i].name!),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                )
+              : const CircularProgressIndicator(
+                  color: AppColors.mainColor,
                 );
-              },
-            ),
-          );
         })
       ],
     );

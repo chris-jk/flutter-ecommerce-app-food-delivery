@@ -9,16 +9,17 @@ class MercahntController extends GetxController {
   List<dynamic> _merchantList = [];
   List<dynamic> get merchantList => _merchantList;
 
+  bool _isLoaded = false;
+  bool get isLoaded => _isLoaded;
+
   Future<void> getMerchantList() async {
     Response response = await merchantRepo.getMerchantList();
     if (response.statusCode == 200) {
       _merchantList = [];
       _merchantList.addAll(MerchantList.fromJson(response.body).data);
-      print(_merchantList);
+      _isLoaded = true;
       update();
-    } else {
-      print('error');
-    }
+    } else {}
   }
 
   void getMerchants() {}

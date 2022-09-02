@@ -1,11 +1,14 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/controllers/merchant_controller.dart';
+import 'package:food_delivery/models/merchant_model.dart';
 
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/small_text.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 
 import '../../widgets/category_devider.dart';
 import '../../widgets/deals_view.dart';
@@ -43,33 +46,43 @@ class _MainPageBodyState extends State<MainPageBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          // color: Colors.red,
-          height: Dimensions.pageView,
-          child: PageView.builder(
-              controller: pageController,
-              itemCount: 5,
-              itemBuilder: (context, position) {
-                return _buildPageItem(position);
-              }),
-        ),
-        DotsIndicator(
-          dotsCount: 5,
-          position: _currPageValue,
-          decorator: DotsDecorator(
-            activeColor: AppColors.mainColor,
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
-            activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-          ),
-        ),
-        // popular text
+        // top slider
+        GetBuilder<MercahntController>(builder: (allMerchantsData) {
+          return allMerchantsData.isLoaded
+              ? SizedBox(
+                  // color: Colors.red,
+                  height: Dimensions.pageView,
+                  child: PageView.builder(
+                      controller: pageController,
+                      itemCount: allMerchantsData.merchantList.length,
+                      itemBuilder: (context, position) {
+                        return _buildPageItem(
+                            position, allMerchantsData.merchantList[position]);
+                      }))
+              : const CircularProgressIndicator(
+                  color: AppColors.mainColor,
+                );
+        }),
+        // top slider dots
+        GetBuilder<MercahntController>(builder: (allMerchantsData) {
+          return DotsIndicator(
+            dotsCount: allMerchantsData.merchantList.isEmpty
+                ? 1
+                : allMerchantsData.merchantList.length,
+            position: _currPageValue,
+            decorator: DotsDecorator(
+              activeColor: AppColors.mainColor,
+              size: const Size.square(9.0),
+              activeSize: const Size(18.0, 9.0),
+              activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0)),
+            ),
+          );
+        }),
         const CategoryDevider(
           text: 'Deals ',
           description: ' Deals of the day',
         ),
-
         // list of Deals
         SizedBox(
           width: double.infinity,
@@ -94,27 +107,27 @@ class _MainPageBodyState extends State<MainPageBody> {
           description: 'Most Popual Stores',
         ),
         // list of stores
-        SizedBox(
-          width: double.infinity,
-          height: Dimensions.pageView,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int i) {
-              return MainCard(
-                description: 'This is a description ',
-                image: 'assets/image/food0.png',
-                title: 'Title of thing',
-              );
-            },
-          ),
-        ),
+        GetBuilder<MercahntController>(builder: (allMerchantsData) {
+          return Container(
+            height: Dimensions.pageView,
+            child: PageView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: allMerchantsData.merchantList.length,
+              itemBuilder: (BuildContext context, int i) {
+                return MainCard(
+                  image: 'assets/image/food0.png',
+                  title: 'Title of thing',
+                  description: 'This is a description ',
+                );
+              },
+            ),
+          );
+        })
       ],
     );
   }
 
-  Widget _buildPageItem(int index) {
+  Widget _buildPageItem(int index, MerchantModel data) {
     Matrix4 matrix = Matrix4.identity();
 
     if (index == _currPageValue.floor()) {
@@ -154,9 +167,9 @@ class _MainPageBodyState extends State<MainPageBody> {
               color: index.isEven
                   ? const Color(0xFF69c5df)
                   : const Color(0xFF9294cc),
-              image: const DecorationImage(
+              image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage("assets/image/food0.png"),
+                image: NetworkImage(data.logom!),
               ),
             ),
           ),
@@ -193,13 +206,14 @@ class _MainPageBodyState extends State<MainPageBody> {
                     right: Dimensions.width20),
                 child: Column(
                   children: [
-                    BigText(text: 'text   text text'),
+                    BigText(text: data.name!),
                     SizedBox(
                       height: Dimensions.height10,
                     ),
                     SmallText(
-                        text:
-                            'text text text text text tetext text text text text text text text'),
+                        text: data.description!.length > 150
+                            ? data.description!
+                            : data.description! + '...'),
                   ],
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:food_delivery/utils/constants.dart';
 import 'package:get/get.dart';
 
 class ApiClient extends GetConnect implements GetxService {
@@ -7,12 +8,13 @@ class ApiClient extends GetConnect implements GetxService {
   late Map<String, String> _headers;
 
   ApiClient({required this.appbaseUrl}) {
-    baseUrl = 'https://foodtiger.site/api/v2';
+    baseUrl = appbaseUrl;
     timeout = Duration(seconds: 30);
+    token = Constants.TOKEN;
 
     _headers = {
       'Content-Type': 'application/json; charset=UTF-8',
-      // 'Authorization': 'Bearer $token',
+      'Authorization': 'Bearer $token',
     };
   }
   Future<Response> getData(String uri) async {

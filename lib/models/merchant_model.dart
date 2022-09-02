@@ -22,7 +22,7 @@ class MerchantList {
     if (json['data'] != null) {
       _data = <MerchantModel>[];
       json['data'].forEach((v) {
-        _data!.add(MerchantModel.fromJson(v));
+        _data.add(MerchantModel.fromJson(v));
       });
     }
   }

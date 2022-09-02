@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
         )
       ],
     ),
-    const MerchantDetails(),
+    // const MerchantDetails(),
     const ProductDetails(),
     const Text('Index 3: profile')
   ];

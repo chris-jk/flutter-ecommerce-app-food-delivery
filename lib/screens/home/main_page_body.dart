@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controllers/merchant_controller.dart';
 import 'package:food_delivery/models/merchant_model.dart';
+import 'package:food_delivery/routes/route_helper.dart';
 
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
@@ -14,6 +15,7 @@ import '../../widgets/app_description.dart';
 import '../../widgets/category_devider.dart';
 import '../../widgets/deals_view.dart';
 import '../../widgets/main_cards.dart';
+import '../products/merchant_details.dart';
 
 class MainPageBody extends StatefulWidget {
   const MainPageBody({Key? key}) : super(key: key);
@@ -53,13 +55,18 @@ class _MainPageBodyState extends State<MainPageBody> {
               ? SizedBox(
                   // color: Colors.red,
                   height: Dimensions.pageView,
-                  child: PageView.builder(
-                      controller: pageController,
-                      itemCount: allMerchantsData.merchantList.length,
-                      itemBuilder: (context, position) {
-                        return _buildPageItem(
-                            position, allMerchantsData.merchantList[position]);
-                      }))
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RoutHelper.merchantDetails);
+                    },
+                    child: PageView.builder(
+                        controller: pageController,
+                        itemCount: allMerchantsData.merchantList.length,
+                        itemBuilder: (context, position) {
+                          return _buildPageItem(position,
+                              allMerchantsData.merchantList[position]);
+                        }),
+                  ))
               : const CircularProgressIndicator(
                   color: AppColors.mainColor,
                 );
@@ -115,7 +122,7 @@ class _MainPageBodyState extends State<MainPageBody> {
                   child: PageView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: allMerchantsData.merchantList.length,
-                    itemBuilder: (BuildContext context, int i) {
+                    itemBuilder: (context, index) {
                       return Container(
                         width: Dimensions.pageViewContainer * 1.05,
                         height: Dimensions.pageView,
@@ -138,7 +145,7 @@ class _MainPageBodyState extends State<MainPageBody> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(allMerchantsData
-                                        .merchantList[i].logom!),
+                                        .merchantList[index].logom!),
                                   )),
                             ),
                             // bottom half
@@ -161,7 +168,7 @@ class _MainPageBodyState extends State<MainPageBody> {
                                   children: [
                                     AppDecription(
                                         text: allMerchantsData
-                                            .merchantList[i].name!),
+                                            .merchantList[index].name!),
                                   ],
                                 ),
                               ),
@@ -211,18 +218,23 @@ class _MainPageBodyState extends State<MainPageBody> {
       transform: matrix,
       child: Stack(
         children: [
-          Container(
-            height: Dimensions.pageViewContainer,
-            margin: EdgeInsets.only(
-                left: Dimensions.width10, right: Dimensions.width10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimensions.radius30),
-              color: index.isEven
-                  ? const Color(0xFF69c5df)
-                  : const Color(0xFF9294cc),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(data.logom!),
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(RoutHelper.getMerchantDetails(index));
+            },
+            child: Container(
+              height: Dimensions.pageViewContainer,
+              margin: EdgeInsets.only(
+                  left: Dimensions.width10, right: Dimensions.width10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dimensions.radius30),
+                color: index.isEven
+                    ? const Color(0xFF69c5df)
+                    : const Color(0xFF9294cc),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(data.logom!),
+                ),
               ),
             ),
           ),

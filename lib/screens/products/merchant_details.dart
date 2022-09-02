@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/app_description.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/merchant_controller.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/expandble_text.dart';
 
 class MerchantDetails extends StatelessWidget {
-  const MerchantDetails({Key? key}) : super(key: key);
+  int pageId;
+  MerchantDetails({required this.pageId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var merchant = Get.find<MercahntController>().merchantList[pageId];
+    // print('page id is ' + pageId.toString());
+    // print(merchant.name!.toString());
+
     return Scaffold(
       body: Stack(
         children: [
@@ -23,10 +31,11 @@ class MerchantDetails extends StatelessWidget {
             child: Container(
               width: Dimensions.listViewImg,
               height: Dimensions.productImageDetail,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/image/food0.png'))),
+                fit: BoxFit.cover,
+                image: NetworkImage(merchant.logom!),
+              )),
             ),
           ),
           // buttons
@@ -36,9 +45,14 @@ class MerchantDetails extends StatelessWidget {
             right: Dimensions.width20,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                AppIcon(
-                  icon: Icons.arrow_back_ios,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(RoutHelper.initial);
+                  },
+                  child: AppIcon(
+                    icon: Icons.arrow_back_ios,
+                  ),
                 ),
                 AppIcon(
                   icon: Icons.shopping_bag_outlined,
@@ -71,7 +85,7 @@ class MerchantDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppDecription(
-                        text: ' This is a description description',
+                        text: merchant.name!,
                       ),
                       Container(
                         padding: EdgeInsets.all(Dimensions.width15),

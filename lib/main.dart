@@ -17,10 +17,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // get all mechants
     Get.find<MercahntController>().getMerchantList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Kushy',
       home: const MainPage(),
       initialRoute: RoutHelper.initial,
       getPages: RoutHelper.routes,

@@ -10,5 +10,8 @@ class Constants {
   static const String BASE_URL = 'https://foodtiger.site/api/v2';
 
   static const String MERCHANT_URI = '/client/vendor/list/none';
+  // need to make this dynamic
+  static const String MERCHANT_ITEMS_URI = '/client/vendor/1/items';
+
   static const String TOKEN = 'TOKEN';
 }

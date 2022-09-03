@@ -15,7 +15,8 @@ import '../../widgets/app_description.dart';
 import '../../widgets/category_devider.dart';
 import '../../widgets/deals_view.dart';
 import '../../widgets/main_cards.dart';
-import '../products/merchant_details.dart';
+import '../../widgets/top_bar.dart';
+import '../merchant/merchant_details.dart';
 
 class MainPageBody extends StatefulWidget {
   const MainPageBody({Key? key}) : super(key: key);
@@ -41,148 +42,162 @@ class _MainPageBodyState extends State<MainPageBody> {
   }
 
   @override
-  void dispose() {
-    pageController.dispose();
-  }
+  // void dispose() {
+  //   pageController.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // top slider
-        GetBuilder<MercahntController>(builder: (allMerchantsData) {
-          return allMerchantsData.isLoaded
-              ? SizedBox(
-                  // color: Colors.red,
-                  height: Dimensions.pageView,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.toNamed(RoutHelper.merchantDetails);
-                    },
-                    child: PageView.builder(
-                        controller: pageController,
-                        itemCount: allMerchantsData.merchantList.length,
-                        itemBuilder: (context, position) {
-                          return _buildPageItem(position,
-                              allMerchantsData.merchantList[position]);
-                        }),
-                  ))
-              : const CircularProgressIndicator(
-                  color: AppColors.mainColor,
-                );
-        }),
-        // top slider dots
-        GetBuilder<MercahntController>(builder: (allMerchantsData) {
-          return DotsIndicator(
-            dotsCount: allMerchantsData.merchantList.isEmpty
-                ? 1
-                : allMerchantsData.merchantList.length,
-            position: _currPageValue,
-            decorator: DotsDecorator(
-              activeColor: AppColors.mainColor,
-              size: const Size.square(9.0),
-              activeSize: const Size(18.0, 9.0),
-              activeShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0)),
-            ),
-          );
-        }),
-        const CategoryDevider(
-          text: 'Deals ',
-          description: ' Deals of the day',
-        ),
-        // list of Deals
-        SizedBox(
-          width: double.infinity,
-          height: Dimensions.pageView,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int i) {
-              return DealsView(
-                description: 'This is a description ',
-                image: 'assets/image/food0.png',
-                title: 'Title of thing',
-              );
-            },
-          ),
-        ),
+        const Gap(60),
+        // Top bar widget
+        const TopBar(),
         const Gap(20),
-        // popular text
-        const CategoryDevider(
-          text: 'Popular',
-          description: 'Most Popual Stores',
-        ),
-        // list of stores
-        GetBuilder<MercahntController>(builder: (allMerchantsData) {
-          return allMerchantsData.isLoaded
-              ? SizedBox(
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // top slider
+                GetBuilder<MercahntController>(builder: (allMerchantsData) {
+                  return allMerchantsData.isLoaded
+                      ? SizedBox(
+                          // color: Colors.red,
+                          height: Dimensions.pageView,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(RoutHelper.merchantDetails);
+                            },
+                            child: PageView.builder(
+                                controller: pageController,
+                                itemCount: allMerchantsData.merchantList.length,
+                                itemBuilder: (context, position) {
+                                  return _buildPageItem(position,
+                                      allMerchantsData.merchantList[position]);
+                                }),
+                          ))
+                      : const CircularProgressIndicator(
+                          color: AppColors.mainColor,
+                        );
+                }),
+                // top slider dots
+                GetBuilder<MercahntController>(builder: (allMerchantsData) {
+                  return DotsIndicator(
+                    dotsCount: allMerchantsData.merchantList.isEmpty
+                        ? 1
+                        : allMerchantsData.merchantList.length,
+                    position: _currPageValue,
+                    decorator: DotsDecorator(
+                      activeColor: AppColors.mainColor,
+                      size: const Size.square(9.0),
+                      activeSize: const Size(18.0, 9.0),
+                      activeShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                    ),
+                  );
+                }),
+                const CategoryDevider(
+                  text: 'Deals ',
+                  description: ' Deals of the day',
+                ),
+                // list of Deals
+                SizedBox(
+                  width: double.infinity,
                   height: Dimensions.pageView,
-                  child: PageView.builder(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: allMerchantsData.merchantList.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        width: Dimensions.pageViewContainer * 1.05,
-                        height: Dimensions.pageView,
-                        margin: EdgeInsets.only(
-                            left: Dimensions.width10 / 2,
-                            right: Dimensions.width10 / 2,
-                            top: Dimensions.height10),
-                        child: Column(
-                          children: [
-                            // image section
-                            Container(
-                              height: Dimensions.listViewImg,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft:
-                                          Radius.circular(Dimensions.radius30),
-                                      topRight:
-                                          Radius.circular(Dimensions.radius30)),
-                                  color: Colors.white38,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(allMerchantsData
-                                        .merchantList[index].logom!),
-                                  )),
-                            ),
-                            // bottom half
-                            Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft:
-                                        Radius.circular(Dimensions.radius20),
-                                    bottomRight:
-                                        Radius.circular(Dimensions.radius20),
-                                  ),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: Dimensions.width10,
-                                    right: Dimensions.width10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    AppDecription(
-                                        text: allMerchantsData
-                                            .merchantList[index].name!),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                    shrinkWrap: true,
+                    itemCount: 10,
+                    itemBuilder: (BuildContext context, int i) {
+                      return DealsView(
+                        description: 'This is a description ',
+                        image: 'assets/image/food0.png',
+                        title: 'Title of thing',
                       );
                     },
                   ),
-                )
-              : const CircularProgressIndicator(
-                  color: AppColors.mainColor,
-                );
-        })
+                ),
+                const Gap(20),
+                // popular text
+                const CategoryDevider(
+                  text: 'Popular',
+                  description: 'Most Popual Stores',
+                ),
+                // list of stores
+                GetBuilder<MercahntController>(builder: (allMerchantsData) {
+                  return allMerchantsData.isLoaded
+                      ? SizedBox(
+                          height: Dimensions.pageView,
+                          child: PageView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: allMerchantsData.merchantList.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                width: Dimensions.pageViewContainer * 1.05,
+                                height: Dimensions.pageView,
+                                margin: EdgeInsets.only(
+                                    left: Dimensions.width10 / 2,
+                                    right: Dimensions.width10 / 2,
+                                    top: Dimensions.height10),
+                                child: Column(
+                                  children: [
+                                    // image section
+                                    Container(
+                                      height: Dimensions.listViewImg,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(
+                                                  Dimensions.radius30),
+                                              topRight: Radius.circular(
+                                                  Dimensions.radius30)),
+                                          color: Colors.white38,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(allMerchantsData
+                                                .merchantList[index].logom!),
+                                          )),
+                                    ),
+                                    // bottom half
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(
+                                                Dimensions.radius20),
+                                            bottomRight: Radius.circular(
+                                                Dimensions.radius20),
+                                          ),
+                                          color: Colors.white),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: Dimensions.width10,
+                                            right: Dimensions.width10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            AppDecription(
+                                                text: allMerchantsData
+                                                    .merchantList[index].name!),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      : const CircularProgressIndicator(
+                          color: AppColors.mainColor,
+                        );
+                })
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -220,6 +235,7 @@ class _MainPageBodyState extends State<MainPageBody> {
         children: [
           GestureDetector(
             onTap: () {
+              // Get.toNamed(RoutHelper.getMerchantDetails(index));
               Get.toNamed(RoutHelper.getMerchantDetails(index));
             },
             child: Container(

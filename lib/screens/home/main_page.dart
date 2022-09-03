@@ -1,10 +1,6 @@
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/screens/home/main_page_body.dart';
-import 'package:gap/gap.dart';
-
-import '../../widgets/top_bar.dart';
-import '../products/merchant_details.dart';
 import '../products/product_details.dart';
 
 class MainPage extends StatefulWidget {
@@ -18,23 +14,9 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    Column(
-      children: [
-        const Gap(60),
-        // Top bar widget
-        const TopBar(),
-        const Gap(20),
-
-        // showing the body
-        Expanded(
-          child: SingleChildScrollView(
-            child: MainPageBody(),
-          ),
-        )
-      ],
-    ),
-    // const MerchantDetails(),
+    const MainPageBody(),
     const ProductDetails(),
+    const Text('Index 2: favorites'),
     const Text('Index 3: profile')
   ];
 

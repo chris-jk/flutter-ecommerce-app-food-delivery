@@ -1,7 +1,8 @@
+import 'package:food_delivery/screens/merchant/merchant_details2.dart';
 import 'package:get/get.dart';
 
 import '../screens/home/main_page.dart';
-import '../screens/products/merchant_details.dart';
+import '../screens/merchant/merchant_details.dart';
 
 class RoutHelper {
   static String initial = '/';
@@ -13,12 +14,14 @@ class RoutHelper {
       '$merchantDetails?pageId=$pageId';
 
   static List<GetPage> routes = [
+    // main page
     GetPage(name: initial, page: () => const MainPage()),
+    //
     GetPage(
         name: merchantDetails,
         page: () {
           var pageId = Get.parameters['pageId'];
-          return MerchantDetails(pageId: int.parse(pageId!));
+          return MerchDetails2(pageId: int.parse(pageId ?? "0"));
         },
         transition: Transition.zoom),
   ];

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SmallText extends StatelessWidget {
+class LineThroughSmallText extends StatelessWidget {
   Color? color;
   final String text;
   double size;
@@ -9,14 +9,14 @@ class SmallText extends StatelessWidget {
   Decoration? decoration;
   // TextOverflow overflow;
 
-  SmallText({
+  LineThroughSmallText({
     Key? key,
     this.color = const Color(0xFFccc7c5),
     required this.text,
-    this.size = 12,
+    this.size = 15,
     this.height = 1.2,
-    this.fontWeight = FontWeight.w500,
-    this.decoration,
+    this.fontWeight = FontWeight.w700,
+
     // this.overflow = TextOverflow.ellipsis,
   }) : super(key: key);
 
@@ -32,7 +32,7 @@ class SmallText extends StatelessWidget {
         fontSize: size,
         height: height,
         fontWeight: fontWeight,
-        decoration: TextDecoration.none,
+        decoration: TextDecoration.lineThrough,
       ),
     );
   }

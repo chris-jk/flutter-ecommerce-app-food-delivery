@@ -124,76 +124,81 @@ class _MainPageBodyState extends State<MainPageBody> {
                   description: 'Most Popual Stores',
                 ),
                 // list of stores
-                GetBuilder<MercahntController>(builder: (allMerchantsData) {
-                  return allMerchantsData.isLoaded
-                      ? SizedBox(
-                          height: Dimensions.pageView,
-                          child: PageView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: allMerchantsData.merchantList.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                width: Dimensions.pageViewContainer * 1.05,
-                                height: Dimensions.pageView,
-                                margin: EdgeInsets.only(
-                                    left: Dimensions.width10 / 2,
-                                    right: Dimensions.width10 / 2,
-                                    top: Dimensions.height10),
-                                child: Column(
-                                  children: [
-                                    // image section
-                                    Container(
-                                      height: Dimensions.listViewImg,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(
-                                                  Dimensions.radius30),
-                                              topRight: Radius.circular(
-                                                  Dimensions.radius30)),
-                                          color: Colors.white38,
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(allMerchantsData
-                                                .merchantList[index].logom!),
-                                          )),
-                                    ),
-                                    // bottom half
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(
-                                                Dimensions.radius20),
-                                            bottomRight: Radius.circular(
-                                                Dimensions.radius20),
+                GetBuilder<MercahntController>(
+                  builder: (allMerchantsData) {
+                    return allMerchantsData.isLoaded
+                        ? SizedBox(
+                            height: Dimensions.pageView,
+                            child: PageView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: allMerchantsData.merchantList.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  width: Dimensions.pageViewContainer * 1.05,
+                                  height: Dimensions.pageView,
+                                  margin: EdgeInsets.only(
+                                      left: Dimensions.width10 / 2,
+                                      right: Dimensions.width10 / 2,
+                                      top: Dimensions.height10),
+                                  child: Column(
+                                    children: [
+                                      // image section
+                                      Container(
+                                        height: Dimensions.listViewImg,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(
+                                                    Dimensions.radius30),
+                                                topRight: Radius.circular(
+                                                    Dimensions.radius30)),
+                                            color: Colors.white38,
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                  allMerchantsData
+                                                      .merchantList[index]
+                                                      .logom!),
+                                            )),
+                                      ),
+                                      // bottom half
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(
+                                                  Dimensions.radius20),
+                                              bottomRight: Radius.circular(
+                                                  Dimensions.radius20),
+                                            ),
+                                            color: Colors.white),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: Dimensions.width10,
+                                              right: Dimensions.width10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              AppDecription(
+                                                  text: allMerchantsData
+                                                      .merchantList[index]
+                                                      .name!),
+                                            ],
                                           ),
-                                          color: Colors.white),
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: Dimensions.width10,
-                                            right: Dimensions.width10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            AppDecription(
-                                                text: allMerchantsData
-                                                    .merchantList[index].name!),
-                                          ],
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                      : const CircularProgressIndicator(
-                          color: AppColors.mainColor,
-                        );
-                })
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        : const CircularProgressIndicator(
+                            color: AppColors.mainColor,
+                          );
+                  },
+                )
               ],
             ),
           ),

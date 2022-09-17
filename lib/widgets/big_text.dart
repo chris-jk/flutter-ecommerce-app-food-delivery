@@ -6,6 +6,7 @@ class BigText extends StatelessWidget {
   final String text;
   double size;
   TextOverflow overflow;
+  FontWeight fontWeight;
 
   BigText({
     Key? key,
@@ -13,6 +14,7 @@ class BigText extends StatelessWidget {
     required this.text,
     this.size = 0,
     this.overflow = TextOverflow.ellipsis,
+    this.fontWeight = FontWeight.w400,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class BigText extends StatelessWidget {
         fontFamily: 'Roboto',
         color: color,
         fontSize: size == 0 ? Dimensions.font20 : size,
-        fontWeight: FontWeight.w400,
+        fontWeight: fontWeight,
       ),
     );
   }

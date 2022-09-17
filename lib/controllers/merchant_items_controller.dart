@@ -20,7 +20,7 @@ class MercahntItemsController extends GetxController {
       _merchantItems = [];
       _merchantItems.addAll(MerchantItems.fromJson(response.body).data);
       _isLoaded = true;
-      print(_merchantItems);
+      // print(_merchantItems);
       // inspect(response.body);
 
       update();

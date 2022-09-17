@@ -2,7 +2,6 @@ import 'package:food_delivery/screens/merchant/merchant_details2.dart';
 import 'package:get/get.dart';
 
 import '../screens/home/main_page.dart';
-import '../screens/merchant/merchant_details.dart';
 
 class RoutHelper {
   static String initial = '/';
@@ -21,6 +20,7 @@ class RoutHelper {
         name: merchantDetails,
         page: () {
           var pageId = Get.parameters['pageId'];
+          print('pageId: $pageId');
           return MerchDetails2(pageId: int.parse(pageId ?? "0"));
         },
         transition: Transition.zoom),

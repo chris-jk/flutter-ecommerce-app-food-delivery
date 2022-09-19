@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/controllers/merchant_items_controller.dart';
-
 import 'package:food_delivery/widgets/small_text.dart';
 import 'package:gap/gap.dart';
 
+import '../controllers/merchant_items_controller.dart';
+import '../models/merchant_items_model.dart';
 import '../utils/colors.dart';
 import '../utils/dimensions.dart';
 import 'big_text.dart';
 import 'icon_and_text.dart';
 import 'line_through_small_text.dart';
 
-class ItmeCard extends StatelessWidget {
-  const ItmeCard(MercahntItemsController itmesData, {Key? key})
-      : super(key: key);
+class ItemCard extends StatelessWidget {
+  const ItemCard({
+    Key? key,
+    required this.index,
+    required this.data,
+  }) : super(key: key);
 
-  get index => null;
+  final int index;
+  final MerchantItemModel data;
 
   @override
   Widget build(BuildContext context) {
-    var itmesData;
     return Column(
       children: [
         // image
         Container(
           width: 200,
-          height: Dimensions.pageView * 0.8,
+          height: Dimensions.pageView * .8,
           margin: const EdgeInsets.only(left: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             image: DecorationImage(
-              image: NetworkImage(itmesData.merchantItems[0][index].logom),
+              image: NetworkImage(data.logom),
               fit: BoxFit.cover,
             ),
           ),
@@ -49,7 +52,7 @@ class ItmeCard extends StatelessWidget {
                     // Category Name
                     SmallText(
                       size: 16,
-                      text: itmesData.merchantItems[0][index].categoryName,
+                      text: data.categoryName,
                     ),
                     Gap(5),
                     // rating
@@ -64,7 +67,7 @@ class ItmeCard extends StatelessWidget {
               Gap(5),
               // this is the name of the item
               BigText(
-                text: itmesData.merchantItems[0][index].name,
+                text: data.name,
               ),
               // show star rating
 
@@ -81,8 +84,7 @@ class ItmeCard extends StatelessWidget {
                       Gap(5),
                       LineThroughSmallText(
                         size: 18,
-                        text:
-                            itmesData.merchantItems[0][index].price.toString(),
+                        text: data.price.toString(),
                       ),
                     ],
                   ),
@@ -104,8 +106,8 @@ class ItmeCard extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                           size: 18,
                           text: 500.toString(),
-                          // text: itmesData
-                          //     .merchantItems[0][index]
+                          // text: itemsData.merchantItems
+                          //     [0][index]
                           //     .discountedPrice
                           //     .toString(),
                         ),

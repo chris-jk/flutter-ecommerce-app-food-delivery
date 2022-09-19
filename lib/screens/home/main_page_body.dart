@@ -15,6 +15,7 @@ import '../../widgets/app_description.dart';
 import '../../widgets/category_devider.dart';
 import '../../widgets/deals_view.dart';
 import '../../widgets/main_cards.dart';
+import '../../widgets/top_banner.dart';
 import '../../widgets/top_bar.dart';
 import '../merchant/merchant_details.dart';
 
@@ -72,8 +73,13 @@ class _MainPageBodyState extends State<MainPageBody> {
                                 controller: pageController,
                                 itemCount: allMerchantsData.merchantList.length,
                                 itemBuilder: (context, position) {
-                                  return _buildPageItem(position,
-                                      allMerchantsData.merchantList[position]);
+                                  return BuildPageItem(
+                                      currPageValue: _currPageValue,
+                                      scaleFactor: _scaleFactor,
+                                      height: _height,
+                                      index: position,
+                                      data: allMerchantsData
+                                          .merchantList[position]);
                                 }),
                           ))
                       : const CircularProgressIndicator(
@@ -204,109 +210,6 @@ class _MainPageBodyState extends State<MainPageBody> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildPageItem(int index, MerchantModel data) {
-    Matrix4 matrix = Matrix4.identity();
-
-    if (index == _currPageValue.floor()) {
-      var currScale = 1 - (_currPageValue - index) * (1 - _scaleFactor);
-      var currTrans = _height * (1 - currScale) / 2;
-      matrix = Matrix4.diagonal3Values(1, currScale, 1)
-        ..setTranslationRaw(0, currTrans, 0);
-    } else if (index == _currPageValue.floor() + 1) {
-      var currScale =
-          _scaleFactor + (_currPageValue - index + 1) * (1 - _scaleFactor);
-      var currTrans = _height * (1 - currScale) / 2;
-
-      matrix = Matrix4.diagonal3Values(1, currScale, 1)
-        ..setTranslationRaw(0, currTrans, 0);
-    } else if (index == _currPageValue.floor() - 1) {
-      var currScale =
-          _scaleFactor + (_currPageValue - index - 1) * (1 - _scaleFactor);
-      var currTrans = _height * (1 - currScale) / 2;
-      matrix = Matrix4.diagonal3Values(1, currScale, 1);
-      matrix = Matrix4.diagonal3Values(1, currScale, 1)
-        ..setTranslationRaw(0, currTrans, 0);
-    } else {
-      var currScale = 0.8;
-      matrix = Matrix4.diagonal3Values(1, currScale, 1)
-        ..setTranslationRaw(0, _height * (1 - currScale) / 2, 1);
-    }
-    return Transform(
-      transform: matrix,
-      child: Stack(
-        children: [
-          GestureDetector(
-            onTap: () {
-              // Get.toNamed(RoutHelper.getMerchantDetails(index));
-              Get.toNamed(RoutHelper.getMerchantDetails(index));
-            },
-            child: Container(
-              height: Dimensions.pageViewContainer,
-              margin: EdgeInsets.only(
-                  left: Dimensions.width10, right: Dimensions.width10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius30),
-                color: index.isEven
-                    ? const Color(0xFF69c5df)
-                    : const Color(0xFF9294cc),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(data.logom!),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: Dimensions.pageViewTextContainer,
-              margin: EdgeInsets.only(
-                  left: Dimensions.width20,
-                  right: Dimensions.width20,
-                  bottom: 5),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius20),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0xFFe8e8e8),
-                      blurRadius: 5.0,
-                      offset: Offset(0, 5),
-                    ),
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-5, 0),
-                    ),
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(5, 0),
-                    ),
-                  ]),
-              child: Container(
-                padding: EdgeInsets.only(
-                    top: Dimensions.height10,
-                    left: Dimensions.width20,
-                    right: Dimensions.width20),
-                child: Column(
-                  children: [
-                    BigText(text: data.name!),
-                    SizedBox(
-                      height: Dimensions.height10,
-                    ),
-                    SmallText(
-                        text: data.description!.length > 150
-                            ? data.description!
-                            : data.description! + '...'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -18,5 +18,5 @@ Future<void> init() async {
 
 // from controllers
   Get.lazyPut(() => MercahntController(merchantRepo: Get.find()));
-  Get.lazyPut(() => MercahntItemsController(merchantItemsRepo: Get.find()));
+  Get.lazyPut(() => MerchantItemsController(merchantItemsRepo: Get.find()));
 }

@@ -16,6 +16,8 @@ class MerchantItems {
         status: json["status"],
         errMsg: json["errMsg"],
       );
+
+  get logom => null;
 }
 
 class MerchantItemModel {

@@ -1,13 +1,11 @@
-import '/data/repos/merchant_items_repo.dart';
 import 'package:get/get.dart';
-import 'dart:developer';
+import '/data/repos/merchant_items_repo.dart';
 import '../models/merchant_items_model.dart';
 
-class MercahntItemsController extends GetxController {
+class MerchantItemsController extends GetxController {
   final MerchantItemsRepo merchantItemsRepo;
 
-  MercahntItemsController({required this.merchantItemsRepo});
-
+  MerchantItemsController({required this.merchantItemsRepo});
   List<dynamic> _merchantItems = [];
   List<dynamic> get merchantItems => _merchantItems;
 
@@ -17,12 +15,11 @@ class MercahntItemsController extends GetxController {
   Future<void> getMerchantItems() async {
     Response response = await merchantItemsRepo.getMerchantItems();
     if (response.statusCode == 200) {
+      print('Got Products Successfully 📦 ✅');
       _merchantItems = [];
       _merchantItems.addAll(MerchantItems.fromJson(response.body).data);
       _isLoaded = true;
-      // print(_merchantItems);
-      // inspect(response.body);
-
+      // printError(info: response.body.toString());
       update();
     } else {}
   }

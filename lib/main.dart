@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // get all mechants
     Get.find<MercahntController>().getMerchantList();
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Kushy',

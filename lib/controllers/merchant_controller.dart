@@ -1,8 +1,5 @@
-import 'dart:developer';
-
-import '/data/repos/merchant_repo.dart';
 import 'package:get/get.dart';
-
+import '/data/repos/merchant_repo.dart';
 import '../models/merchant_model.dart';
 
 class MercahntController extends GetxController {
@@ -17,6 +14,7 @@ class MercahntController extends GetxController {
 
   Future<void> getMerchantList() async {
     Response response = await merchantRepo.getMerchantList();
+    print('Got Merchants Successfully ✅');
     if (response.statusCode == 200) {
       _merchantList = [];
       _merchantList.addAll(MerchantList.fromJson(response.body).data);

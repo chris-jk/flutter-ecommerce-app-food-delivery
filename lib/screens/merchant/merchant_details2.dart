@@ -21,7 +21,7 @@ class _MerchDetails2State extends State<MerchDetails2>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    Get.find<MercahntItemsController>().getMerchantItems();
+    Get.find<MerchantItemsController>().getMerchantItems();
 
     TabController _tabController = TabController(length: 3, vsync: this);
 
@@ -63,7 +63,7 @@ class _MerchDetails2State extends State<MerchDetails2>
             child: TabBarView(
               controller: _tabController,
               children: [
-                GetBuilder<MercahntItemsController>(
+                GetBuilder<MerchantItemsController>(
                   builder: (itmesData) {
                     return itmesData.isLoaded
                         // menu items
@@ -116,10 +116,10 @@ class _MerchDetails2State extends State<MerchDetails2>
                                                 iconColor: AppColors.mainColor,
                                                 text: 4.8.toString(),
                                               ),
+                                              Gap(5),
                                             ],
                                           ),
                                         ),
-                                        Gap(5),
                                         // this is the name of the item
                                         BigText(
                                           text: itmesData

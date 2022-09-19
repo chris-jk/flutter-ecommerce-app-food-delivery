@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/merchant_items_controller.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
+import '../../widgets/icon_and_text.dart';
+import '../../widgets/item_card.dart';
+import '../../widgets/line_through_small_text.dart';
 import '../../widgets/small_text.dart';
 
-class MerchDetails extends StatelessWidget {
-  const MerchDetails({Key? key, required int pageId}) : super(key: key);
+class MerchantDetails extends StatelessWidget {
+  const MerchantDetails({Key? key, required int pageId}) : super(key: key);
+
+  get merchantItem => null;
 
   @override
   Widget build(BuildContext context) {
     final List<String> tabs = <String>['Menu', 'Info', 'Reviews', 'Deals'];
-
+// get all merchant items
+    Get.find<MerchantItemsController>().getMerchantItems();
     return Scaffold(
       backgroundColor: Colors.white,
       body: DefaultTabController(
@@ -70,163 +79,29 @@ class MerchDetails extends StatelessWidget {
           body: TabBarView(
             // These are the contents of the tab views, below the tabs.
             children: tabs.map((String name) {
-              return SafeArea(
-                top: false,
-                bottom: false,
-                child: Builder(
-                  builder: (BuildContext context) {
-                    return CustomScrollView(
-                      key: PageStorageKey<String>(name),
-                      slivers: <Widget>[
-                        SliverOverlapInjector(
-                          handle:
-                              NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                  context),
+              return GetBuilder<MerchantItemsController>(
+                builder: (itemsData) {
+                  return ListView.builder(
+                    // make list horizontal
+                    scrollDirection: Axis.horizontal,
+                    itemCount: itemsData.merchantItems.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 200),
+                        child: ItemCard(
+                          index: index,
+                          data: itemsData.merchantItems[0][index],
                         ),
-                      ],
-                    );
-                  },
-                ),
+                      );
+                    },
+                  );
+                },
               );
             }).toList(),
           ),
         ),
       ),
       // bottom sheet for add to cart///
-      bottomNavigationBar: Container(
-        height: Dimensions.bottomAddToBag,
-        padding: EdgeInsets.only(
-            left: Dimensions.width20,
-            right: Dimensions.width20,
-            bottom: Dimensions.height10,
-            top: Dimensions.height10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(Dimensions.width20),
-            topRight: Radius.circular(Dimensions.width20),
-          ),
-          color: Colors.grey.withOpacity(0.2),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radius20),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(Dimensions.width15),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.radius20),
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: Dimensions.width10,
-                            ),
-                            BigText(text: '\$420.00'),
-                            SizedBox(
-                              width: Dimensions.width10,
-                            ),
-                            SmallText(text: ' ̶\$̶5̶2̶0̶.̶0̶0̶'),
-                            SizedBox(
-                              width: Dimensions.width10,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(Dimensions.width15),
-                  decoration: BoxDecoration(
-                    color: AppColors.mainColor,
-                    borderRadius: BorderRadius.circular(Dimensions.radius20),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.favorite_border,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radius20),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(Dimensions.width15),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.radius20),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.remove,
-                            ),
-                            SizedBox(
-                              width: Dimensions.width10,
-                            ),
-                            BigText(text: '1'),
-                            SizedBox(
-                              width: Dimensions.width10,
-                            ),
-                            const Icon(
-                              Icons.add,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(Dimensions.width15),
-                  decoration: BoxDecoration(
-                    color: AppColors.mainColor,
-                    borderRadius: BorderRadius.circular(Dimensions.radius20),
-                  ),
-                  child: Row(
-                    children: [
-                      BigText(text: 'Add to cart', color: Colors.white),
-                      SizedBox(
-                        width: Dimensions.width10,
-                      ),
-                      Icon(
-                        Icons.shopping_bag_outlined,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

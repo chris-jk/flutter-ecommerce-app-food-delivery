@@ -77,9 +77,8 @@ class MerchantDetails extends StatelessWidget {
             ];
           },
           body: TabBarView(
-            // These are the contents of the tab views, below the tabs.
-            children: tabs.map((String name) {
-              return GetBuilder<MerchantItemsController>(
+            children: [
+              GetBuilder<MerchantItemsController>(
                 builder: (itemsData) {
                   return ListView.builder(
                     // make list horizontal
@@ -96,8 +95,17 @@ class MerchantDetails extends StatelessWidget {
                     },
                   );
                 },
-              );
-            }).toList(),
+              ),
+              const Center(
+                child: Text('Info'),
+              ),
+              const Center(
+                child: Text('Reviews'),
+              ),
+              const Center(
+                child: Text('Deals'),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controllers/merchant_controller.dart';
 import 'package:food_delivery/routes/route_helper.dart';
-import 'package:food_delivery/screens/home/main_page.dart';
+import 'package:food_delivery/screens/home/bottom_nav_bar.dart';
 import 'package:get/get.dart';
 import 'helper/ dependencies.dart' as dep;
 

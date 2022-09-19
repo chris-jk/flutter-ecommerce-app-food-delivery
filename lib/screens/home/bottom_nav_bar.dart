@@ -1,6 +1,8 @@
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/screens/home/main_page_body.dart';
+import '../merchant/merchant_details2.dart';
+import '../merchant/merchant_details.dart';
 import '../products/product_details.dart';
 
 class MainPage extends StatefulWidget {
@@ -16,7 +18,9 @@ class _MainPageState extends State<MainPage> {
   static final List<Widget> _widgetOptions = <Widget>[
     const MainPageBody(),
     const ProductDetails(),
-    const Text('Index 2: favorites'),
+    const MerchDetails2(
+      pageId: 1,
+    ),
     const Text('Index 3: profile')
   ];
 
